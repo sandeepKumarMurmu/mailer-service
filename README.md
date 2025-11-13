@@ -6,6 +6,48 @@ It securely manages email sending, logging, and background processing to ensure 
 </p>
 
 ---
+<h2 align="center"><b>🚀 Steps to Run the NestJS Project</b></h2>
+
+Follow these steps to set up and run the project locally:
+
+### **1️⃣ Clone the Repository**
+```bash
+git clone <your-repository-url>
+cd <project-folder>
+```
+
+### **2️⃣ Install Dependencies**
+Make sure you have Node.js (>=20) and npm installed.
+```bash
+npm install
+```
+
+### **3️⃣ Configure Environment Variables**
+Create a .env file in the project root and add your environment configurations:
+```env
+PORT=3000
+APP_NAME=mailer-service
+MONGO_URI=mongodb+srv://sandeep:sandeep@cluster0.tkeedvw.mongodb.net/mailer-service
+MONGO_POOL_SIZE=10
+MONGO_TIMEOUT_MS=30000
+NODE_ENV=development
+MAIL_PASSWORD=gwha aefj vmmz bcmr
+MAIL_USER=sandeep.16murmu@gmail.com
+```
+
+### **4️⃣ Start the Application**
+Run in development mode:
+```bash
+npm run start:dev
+```
+
+<h2 align="center"><b>🎉 Congratulations! Your app is running successfully 🎉</b></h2>
+
+
+---
+
+
+<div align="center">
 
 ## 🛠️ **Technologies Used**
 
@@ -18,9 +60,16 @@ It securely manages email sending, logging, and background processing to ensure 
 | **Configuration** | dotenv |
 | **Utilities** | Nest Logger, Postman (API Testing) |
 
+</div>
+
 ---
 
+<div align="center">
+
 ## 📦 **Major Modules**
+
+</div>
+
 
 ### 📧 Email Logs Module
 - Handles sending, storing, and retrieving email logs.
@@ -40,7 +89,11 @@ It securely manages email sending, logging, and background processing to ensure 
 
 ---
 
+<div align="center">
+
 ## 🚀 **Key Functionalities**
+
+</div>
 
 ✅ SMTP email sending with dynamic recipients (**To**, **CC**, **BCC**)  
 ✅ HTML and plain text content support  
@@ -50,21 +103,6 @@ It securely manages email sending, logging, and background processing to ensure 
 ✅ Centralized logging and structured error tracking  
 
 ---
-
-## ⚙️ **Environment Variables**
-
-Create a `.env` file in your root folder:
-
-```env
-PORT=3000
-APP_NAME=mailer-service
-MONGO_URI=mongodb+srv://sandeep:sandeep@cluster0.tkeedvw.mongodb.net/mailer-service
-MONGO_POOL_SIZE=10
-MONGO_TIMEOUT_MS=30000
-NODE_ENV=development
-MAIL_PASSWORD=gwha aefj vmmz bcmr
-MAIL_USER=sandeep.16murmu@gmail.com
-```
 
 
 <h1 align="center"><b>📘 API Documentation (Backend Service)</b></h1>
@@ -192,5 +230,9 @@ curl --location 'http://localhost:3000/api/email/logs?status=sent&page=1&limit=5
     }
 }
 ```
+
+---
+<h3 align="center"><b>📘 End of Documentation</b></h3>
+<p align="center">Thank you for reading. For any issues or improvements, feel free to contribute or raise an issue in the repository.</p>
 
 
