@@ -1,99 +1,196 @@
+<h1 align="center"><b>📧 Mail Sending System (Backend Service)</b></h1>
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+A robust, production-ready backend service for automated email delivery and tracking.  
+It securely manages email sending, logging, and background processing to ensure reliability and performance.
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+---
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🛠️ **Technologies Used**
 
-## Description
+| Category | Tools |
+|-----------|--------|
+| **Backend** | NestJS (TypeScript), Node.js |
+| **Database** | MongoDB (Mongoose ORM) |
+| **Mail Service** | Nodemailer (SMTP - Gmail Integration) |
+| **File Handling** | Multer (Local File Upload Management) |
+| **Configuration** | dotenv |
+| **Utilities** | Nest Logger, Postman (API Testing) |
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 📦 **Major Modules**
 
-```bash
-$ npm install
+### 📧 Email Logs Module
+- Handles sending, storing, and retrieving email logs.
+- Tracks status — **Pending**, **Sent**, or **Failed**.
+- Records message IDs and timestamps automatically.
+
+### 📎 File Upload Module
+- Supports **email attachments**.
+- Automatically deletes uploaded files post email dispatch.
+
+### ⚙️ Background Task Handler
+- Sends emails **asynchronously** to prevent request blocking.
+- Enables smooth user experience and high throughput.
+
+### 🚨 Error & Retry Handling
+- Catches and logs all failed deliveries.
+
+---
+
+## 🚀 **Key Functionalities**
+
+✅ SMTP email sending with dynamic recipients (**To**, **CC**, **BCC**)  
+✅ HTML and plain text content support  
+✅ File attachments with auto-cleanup  
+✅ Paginated and filtered email log retrieval  
+✅ Asynchronous mail delivery for high performance  
+✅ Centralized logging and structured error tracking  
+
+---
+
+## ⚙️ **Environment Variables**
+
+Create a `.env` file in your root folder:
+
+```env
+PORT=3000
+APP_NAME=mailer-service
+MONGO_URI=mongodb+srv://sandeep:sandeep@cluster0.tkeedvw.mongodb.net/mailer-service
+MONGO_POOL_SIZE=10
+MONGO_TIMEOUT_MS=30000
+NODE_ENV=development
+MAIL_PASSWORD=gwha aefj vmmz bcmr
+MAIL_USER=sandeep.16murmu@gmail.com
 ```
 
-## Compile and run the project
 
-```bash
-# development
-$ npm run start
+<h1 align="center"><b>📘 API Documentation (Backend Service)</b></h1>
 
-# watch mode
-$ npm run start:dev
+## 📤 **Upload Single Document API**
 
-# production mode
-$ npm run start:prod
+### **Endpoint**
+POST {host}/api/upload/single
+
+
+### **Description**
+This API allows you to upload a **single document** (e.g., PDF, image, or text file) to the server.  
+The uploaded file is temporarily stored for email attachment or other processing tasks.
+
+### **cURL**
+```
+curl --location 'http://localhost:3000/api/upload/single' \
+--form 'file=@"/Users/snadeep.murmu/Downloads/AD_Acknowledgement_1009363489 (2).pdf"'
 ```
 
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### **Sample Response**
+```
+{
+    "success": true,
+    "message": "File uploaded successfully",
+    "relativePath": "/uploads/file-1763026588698-404828857.pdf",
+    "absolutePath": "/Users/snadeep.murmu/Repos/Test/mailer-service/uploads/file-1763026588698-404828857.pdf"
+}
 ```
 
-## Deployment
+## 🚀 Send Email API
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### **Endpoint**  
+POST {host}/api/email
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 
-```bash
-$ npm install -g mau
-$ mau deploy
+### **Description**
+This API allows you to send emails using **NodeMailer** via the backend service.  
+It supports **To**, **CC**, **BCC**, **HTML**, **text**, and **attachments** fields,  
+and logs each mail request in the database with status tracking (`pending`, `sent`, `failed`).
+The file path will be the **absolutePath** received from the **Upload Single Document API**.
+
+### **cURL**
+```curl --location 'http://localhost:3000/api/email' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "to": "sandeep.16murmu@gmail.com",
+    "subject": "Welcome to Our Platform!",
+    "text": "Hello John, welcome aboard! We’re excited to have you.",
+    "html": "<h2>Welcome, John!</h2><p>We’re excited to have you on board. 🎉</p>",
+    "cc": "teamlead@example.com",
+    "bcc": "audit@example.com",
+    "attachments": [
+        {
+            "filename": "file-1763026588698-404828857.pdf",
+            "path": "/Users/snadeep.murmu/Repos/Test/mailer-service/uploads/file-1763026588698-404828857.pdf"
+        }
+    ]
+}'
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### **Sample Response**
+```
+{
+    "success": true,
+    "message": "Email queued successfully",
+    "logId": "6915a6b880e51d0cf74bc390"
+}
+```
 
-## Resources
 
-Check out a few resources that may come in handy when working with NestJS:
+## 📄 **Get Email Logs API**
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### **Endpoint**
+GET {host}/api/email/logs
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### **Description**
+This API retrieves a paginated list of sent emails from the mail log database.  
+You can filter results by **status**, **sender**, **recipient**, or perform a **text search** across email subjects and addresses.
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### **🔍 Query Parameters**
+| Parameter | Type | Required | Default | Description |
+|------------|------|-----------|----------|--------------|
+| **status** | `string` | ❌ Optional | — | Filter emails by status (`pending`, `sent`, `failed`). |
+| **search** | `string` | ❌ Optional | — | Text search across `subject`, `from`, and `to` fields. |
+| **from** | `string` | ❌ Optional | — | Filter by sender email address. |
+| **to** | `string` | ❌ Optional | — | Filter by recipient email address. |
+| **page** | `number` | ❌ Optional | `1` | Page number for pagination. |
+| **limit** | `number` | ❌ Optional | `10` | Number of records per page. |
 
-## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### **🧾 Example Request**
+```
+curl --location 'http://localhost:3000/api/email/logs?status=sent&page=1&limit=5'
+```
+
+### **Sample Response**
+```
+{
+    "success": true,
+    "message": "Email logs fetched successfully",
+    "data": [
+        {
+            "_id": "69157f7912a90acabbb36902",
+            "to": "sandeep.16murmu@gmail.com",
+            "from": "sandeep.16murmu@gmail.com",
+            "subject": "Welcome to Our Platform!",
+            "cc": "teamlead@example.com",
+            "bcc": "audit@example.com",
+            "html": "<h2>Welcome, John!</h2><p>We’re excited to have you on board. 🎉</p>",
+            "text": "Hello John, welcome aboard! We’re excited to have you.",
+            "status": "sent",
+            "createdAt": "13-11-2025 12:19PM",
+            "updatedAt": "13-11-2025 12:19PM",
+            "messageId": "<d287add2-c1ae-b42a-9849-f093e106b2a0@gmail.com>"
+        }
+    ],
+    "meta": {
+        "total": 1,
+        "page": 1,
+        "limit": 10,
+        "totalPages": 1
+    }
+}
+```
+
+
