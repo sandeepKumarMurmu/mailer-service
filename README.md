@@ -27,12 +27,12 @@ Create a .env file in the project root and add your environment configurations:
 ```env
 PORT=3000
 APP_NAME=mailer-service
-MONGO_URI=mongodb+srv://sandeep:sandeep@cluster0.tkeedvw.mongodb.net/mailer-service
+MONGO_URI=[mongo uri]
 MONGO_POOL_SIZE=10
 MONGO_TIMEOUT_MS=30000
 NODE_ENV=development
-MAIL_PASSWORD=gwha aefj vmmz bcmr
-MAIL_USER=sandeep.16murmu@gmail.com
+MAIL_PASSWORD=[your password]
+MAIL_USER=[you password]
 ```
 
 ### **4️⃣ Start the Application**
