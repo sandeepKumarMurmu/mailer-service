@@ -1,13 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 import * as dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Set global prefix for all routes
   app.setGlobalPrefix(process.env.API_PREFIX || 'api');
@@ -19,21 +21,24 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // // Apply global validation
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     whitelist: true,
-  //     forbidNonWhitelisted: true,
-  //     transform: true,
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // strip unknown fields
+      forbidNonWhitelisted: true, // throw error if unknown fields exist
+      transform: true, // auto-transform types
+    }),
+  );
+
+  app.useStaticAssets(join(process.cwd(), 'uploads'), {
+    prefix: '/uploads/',
+  });
 
   // Read port from environment or default to 3000
   const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
   await app.listen(port);
 
-  const logger = new Logger('Bootstrap');
+  const logger = new Logger(bootstrap.name);
   logger.log(
     `Application running at: http://localhost:${port}/${process.env.API_PREFIX || 'api'}`,
   );
